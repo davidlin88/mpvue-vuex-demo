@@ -5,8 +5,8 @@
     继承:重用相同样式 %className可以防止编译出大量重复css代码
     通过 @extend %sampleName
 */
-$browser-default-font-size:16px; // 浏览器默认字体size
 
+$browser-default-font-size:16px; // 浏览器默认字体size
 /*
     将px转为rpx - h5
     @function p2r($px) {
@@ -17,10 +17,18 @@ $browser-default-font-size:16px; // 浏览器默认字体size
     此处引入这个函数是为了以后小程序转h5方便
     $px 填写设计稿尺寸(rpx对应尺寸)
 */
+
+// 背景图片
+@mixin bg-image($url) {
+    background-image: url($url + "@2x.png");
+    @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+        background-image: url($url + "@3x.png");
+    }
+}
+
 @function p2r($px) {
     @return $px / 2;
 }
-
 
 // 不换行
 %no-wrap {

@@ -1,12 +1,11 @@
 <template>
-    <div>首页</div>
+    <div class="main">首页</div>
 </template>
 
 <script>
     export default {
         data() {
-            return {
-            }
+            return {}
         },
 
         components: {},
@@ -21,5 +20,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .main {
+    }
 </style>

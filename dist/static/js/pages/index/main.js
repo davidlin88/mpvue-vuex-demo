@@ -106,7 +106,9 @@ if (false) {(function () {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._v("首页")])
+  return _c('div', {
+    staticClass: "main"
+  }, [_vm._v("首页")])
 }
 var staticRenderFns = []
 render._withStripped = true
