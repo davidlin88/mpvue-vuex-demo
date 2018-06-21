@@ -1,6 +1,7 @@
 # mpvue-demo
 
-> 学习mpvue
+> 用mpvue构建，增加一些人性化和自定义配置的模板，用于小程序的开发和以后将小程序转h5
+> 技术栈：mpvue + vue + vuex + flyio + 微信小程序 + sass
 
 ## Build Setup
 
