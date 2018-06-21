@@ -30,7 +30,7 @@ export default class Tips {
     /**
      * 弹出确认窗口
      */
-    static confirm(text, payload = {}, title = "提示") {
+    static confirm(text,title = "提示", payload = {}, ) {
         return new Promise((resolve, reject) => {
             wx.showModal({
                 title: title,
@@ -50,7 +50,11 @@ export default class Tips {
         });
     }
 
-    static toast(title, onHide, icon = "success") {
+     /**
+     * 普通提示窗口
+     * icon有效值：success / loading / none
+     */
+    static toast(title, icon = "success") {
         setTimeout(() => {
             wx.showToast({
                 title: title,
@@ -59,13 +63,6 @@ export default class Tips {
                 duration: 500
             });
         }, 300);
-
-        // 隐藏结束回调
-        if (onHide) {
-            setTimeout(() => {
-                onHide();
-            }, 500);
-        }
     }
 
 
@@ -104,19 +101,23 @@ export default class Tips {
         };
     }
 
-    static alert(text, ok) {
-        if (ok === void 0) { ok = function (res) {}; }
-        if (!text) {
-            return;
-        }
-        wx.showModal({
-            content: text,
-            showCancel: false,
-            confirmColor: '#000000',
-            cancelColor: '#000000',
-            success: ok
+    static alert(text,title = "提示", payload = {}, ) {
+        return new Promise((resolve, reject) => {
+            wx.showModal({
+                title: title,
+                content: text,
+                showCancel: false,
+                success: res => {
+                    if (res.confirm) {
+                        resolve(payload);
+                    }
+                },
+                fail: res => {
+                    reject(payload);
+                }
+            });
         });
-    };
+    }
 }
 
 /**

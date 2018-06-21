@@ -1,0 +1,15 @@
+// 订制基础样式
+@import "variable.scss";
+
+html {
+    line-height: 1;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    background: $color-background;
+    color: $color-text;
+    font-size: $font-size-m;
+}
+.ib{
+    display: inline-block;
+}

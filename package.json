@@ -1,7 +1,7 @@
 {
-  "name": "mpvue-demo",
+  "name": "mpvue-vuex-demo",
   "version": "1.0.0",
-  "description": "学习mpvue",
+  "description": "A demo build with mpvue using vuex.",
   "author": "Davidlin <779091821@qq.com>",
   "private": true,
   "scripts": {
@@ -12,6 +12,8 @@
   "dependencies": {
     "flyio": "^0.5.9",
     "mpvue": "^1.0.11",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
   },

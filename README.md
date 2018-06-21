@@ -1,6 +1,6 @@
 # mpvue-demo
 
-> 用mpvue构建的小程序项目，用到了vuex，封装了常用tips和http请求，待更新完善
+> 学习mpvue
 
 ## Build Setup
 

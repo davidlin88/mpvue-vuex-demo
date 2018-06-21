@@ -1,0 +1,45 @@
+/*
+    mixin 混合样式:复用近似样式
+    通过 @include sampleName 调用
+
+    继承:重用相同样式 %className可以防止编译出大量重复css代码
+    通过 @extend %sampleName
+*/
+$browser-default-font-size:16px; // 浏览器默认字体size
+
+/*
+    将px转为rpx - h5
+    @function p2r($px) {
+        @return $px / $browser-default-font-size * 1rem;
+    }
+    将px转为rpx - 小程序
+    mpvue 自带的 postcss-mpvue-wxss 会自动将px与rem转为rpx
+    此处引入这个函数是为了以后小程序转h5方便
+    $px 填写设计稿尺寸(rpx对应尺寸)
+*/
+@function p2r($px) {
+    @return $px / 2;
+}
+
+
+// 不换行
+%no-wrap {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+// 扩展点击区域
+%extend-click {
+    position: relative;
+    width: p2r(100px);
+    height: p2r(100px);
+    &:before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+    }
+}

@@ -41,23 +41,3 @@ export const post = (params) => {
     return fly.post(`${host}${params.url}`, qs.stringify(params.data))
 };
 
-
-// 获取banner列表
-export const getBanner = () => {
-    return fly.get(`${host}/mini/banner/list?appKey=${appKey}`)
-};
-
-// 获取店铺优惠券
-export const getClassify = () => {
-    return fly.get(`${host}/mini/banner/list?appKey=${appKey}`)
-};
-
-// 获取猜你喜欢
-export const getGuess = () => {
-    return fly.get(`${host}/mini/banner/list?appKey=${appKey}`)
-};
-
-// 获取推荐列表
-export const getRecommend = () => {
-    return fly.get(`${host}/mini/banner/list?appKey=${appKey}`)
-};
