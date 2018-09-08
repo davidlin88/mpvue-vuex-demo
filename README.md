@@ -306,6 +306,7 @@ export default new Vuex.Store({
 ```
 ### Tips
 1、遇到安装依赖后，运行项目，但dist下没有app.js等入口文件的，将package.json里的mpvue-loader的版本前的^去掉，删除依赖，重新安装即可
+
 2、几个tabbar的图标没有上传，自行选择喜欢的图标哦~
 
 **源码在我的github上，链接在文章开头**
