@@ -2,7 +2,9 @@
 [mpvue-vuex-demo](https://github.com/davidlin88/mpvue-vuex-demo)
 ### 构成
 1、采用mpvue 官方脚手架搭建项目底层结构
+
 2、采用Fly.js 作为http请求库
+
 3、引入[mpvue-router-patach](https://github.com/F-loat/mpvue-router-patch)，以便在mpvue小程序中能使用vue-router的写法
 
 ### 目录结构
