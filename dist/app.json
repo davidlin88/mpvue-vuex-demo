@@ -1,9 +1,8 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/all/main",
-    "pages/me/main",
-    "pages/shopCar/main"
+    "pages/hello/main",
+    "pages/me/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -12,31 +11,19 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "selectedColor": "#EA5149",
+    "selectedColor": "#000",
     "list": [
       {
         "pagePath": "pages/index/main",
-        "text": "精选",
-        "iconPath": "static/img/me.png",
-        "selectedIconPath": "static/img/me-active.png"
-      },
-      {
-        "pagePath": "pages/all/main",
-        "text": "全部商品",
-        "iconPath": "static/img/me.png",
-        "selectedIconPath": "static/img/me-active.png"
-      },
-      {
-        "pagePath": "pages/shopCar/main",
-        "text": "购物车",
-        "iconPath": "static/img/me.png",
-        "selectedIconPath": "static/img/me-active.png"
+        "text": "主页",
+        "iconPath": "static/img/pkq.png",
+        "selectedIconPath": "static/img/pkq-active.png"
       },
       {
         "pagePath": "pages/me/main",
-        "text": "个人中心",
-        "iconPath": "static/img/me.png",
-        "selectedIconPath": "static/img/me-active.png"
+        "text": "个人",
+        "iconPath": "static/img/jlq.png",
+        "selectedIconPath": "static/img/jlq-active.png"
       }
     ]
   }

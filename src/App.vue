@@ -1,13 +1,11 @@
 <script>
-    import config from './config'
+    import { login } from '@/http/api'
     import { mapState, mapMutations } from 'vuex'
     import { SET_OPEN_ID } from './store/mutation-types'
     const App = getApp();
     export default {
         data: {
-            globalData: {
-                loginUrl: 'https://xxx.com/mini/login'
-            }
+            globalData: {}
         },
         computed: {
             ...mapState([
@@ -18,53 +16,37 @@
             ...mapMutations({
                 setOpenId: 'SET_OPEN_ID'
             }),
-            login() {
+            // 使用了async+await的语法，用同步的方式写异步脚本
+            async login(code) {
+                let _this = this;
+                try {
+                    const resData = await login({ code: code });
+                    if (resData.returnCode == 200) {
+                        _this.setOpenId(resData.data.accountId)
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+
+            },
+            // 拆分wx.login，结构更清晰
+            _login() {
                 let _this = this;
                 wx.login({
-                    success: function (res) {
-                        console.log('wx.login成功res', res);
+                    success(res) {
                         if (res.code) {
+                            console.log('wx.login成功,code:', res.code);
                             let code = res.code;
-                            // 登录后台，获取openId
-                            wx.request({
-                                url: _this.globalData.loginUrl,
-                                method: 'GET',
-                                data: {
-                                    appid: config.appid,
-                                    code: code,
-                                    appKey: config.appKey
-                                },
-                                success: function (res) {
-                                    // if (res.data.code === 200) {
-                                    //     _this.setOpenId(res.data.data.openId);
-                                    // } else {
-                                    //     wx.showModal({
-                                    //         title: '提示',
-                                    //         content: res.data.message,
-                                    //         showCancel: false
-                                    //     })
-                                    // }
-                                    _this.setOpenId('openId')
-                                    console.log('假装设置openId',_this.openId);
-                                },
-                                fail: err => {
-                                    wx.showToast({
-                                        title: err
-                                    })
-                                }
-                            })
+                            _this.login(code)
                         } else {
-                            console.log('获取用户登录态失败！' + res.errMsg)
+                            _this.$tips.toast('微信登录失败')
                         }
-                    },
-                    fail: err => {
-
                     }
                 });
             }
         },
-        created() {
-            this.login()
+        onLaunch() {
+            this._login()
         }
     }
 </script>

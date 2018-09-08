@@ -1,5 +1,115 @@
 global.webpackJsonp([1],{
 
+/***/ 137:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export get */
+/* unused harmony export post */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return login; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(62);
+/*
+    接口配调用文件
+    by:David 2018.6.14
+*/
+
+
+
+
+var host = __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].host;
+var appKey = __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].appKey;
+var appid = __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].appid;
+
+/**
+ * 接口模版====post
+ *
+ * export const test = params => {return fly.post(`${root}/xx/xx`, qs.stringify(params))};
+ *
+ * 接口模版====get
+ *
+ * export const test1 = function(){return fly.get(`${root}/api/getNewsList`)}
+ *
+ *
+ * 用法：
+ * 在 页面用引入 test
+ * import {test} from '../../http/api.js'
+ *
+ * test(params).then(res=>{ console.log(res) })
+ */
+
+// export const test = params => {
+//     return fly.post(`${host}/xx/xx`, qs.stringify(params))
+// };
+
+// 通用的get请求
+var get = function get(params) {
+    return __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].get('' + params.url, __WEBPACK_IMPORTED_MODULE_1_qs___default.a.stringify(params.data));
+};
+
+// 通用的post请求
+var post = function post(params) {
+    return __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].post('' + params.url, __WEBPACK_IMPORTED_MODULE_1_qs___default.a.stringify(params.data));
+};
+// 封装的登录请求，根据后台接收方式选择是否加qs.stringify
+var login = function login(params) {
+    return __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].post('/login', params);
+};
+
+/***/ }),
+
+/***/ 138:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(62);
+/*
+    fly配置文件
+    by:David 2018.6.14
+*/
+//引入 fly
+var Fly = __webpack_require__(139);
+var fly = new Fly();
+
+//配置请求基地址
+// //定义公共headers
+// fly.config.headers={xx:5,bb:6,dd:7}
+// //设置超时
+fly.config.timeout = 20000;
+// //设置请求基地址
+fly.config.baseURL = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].host;
+
+//添加请求拦截器
+fly.interceptors.request.use(function (request) {
+    //给所有请求添加自定义header
+    request.headers["X-Tag"] = "flyio";
+    //打印出请求体
+    // console.log(request.body)
+    //终止请求
+    //var err=new Error("xxx")
+    //err.request=request
+    //return Promise.reject(new Error(""))
+
+    //可以显式返回request, 也可以不返回，没有返回值时拦截器中默认返回request
+    return request;
+});
+
+//添加响应拦截器，响应拦截器会在then/catch处理之前执行
+fly.interceptors.response.use(function (response) {
+    //只将请求结果的data字段返回
+    return response.data;
+}, function (err) {
+    //发生网络错误后会走到这里
+    //return Promise.resolve("ssss")
+});
+// Vue.prototype.$http=fly //将fly实例挂在vue原型上
+
+/* harmony default export */ __webpack_exports__["a"] = (fly);
+
+/***/ }),
+
 /***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -10,26 +120,30 @@ var SET_OPEN_ID = 'SET_OPEN_ID';
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_index__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_js_tips__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_index__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_js_tips__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mpvue_router_patch__ = __webpack_require__(105);
 
 
 
 
+ // 兼容vue-router写法
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_mpvue_router_patch__["a" /* default */]);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.productionTip = false;
 __WEBPACK_IMPORTED_MODULE_1__App__["a" /* default */].mpType = 'app';
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$store = __WEBPACK_IMPORTED_MODULE_2__store_index__["a" /* default */];
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$tips = __WEBPACK_IMPORTED_MODULE_3__common_js_tips__["a" /* default */];
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$tips = __WEBPACK_IMPORTED_MODULE_3__common_js_tips__["a" /* default */]; // 全局注册Tips
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a(__WEBPACK_IMPORTED_MODULE_1__App__["a" /* default */]);
 app.$mount();
@@ -38,7 +152,7 @@ app.$mount();
     // 这个字段走 app.json
     config: {
         // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-        pages: ['^pages/index/main', 'pages/all/main', 'pages/shopCar/main', 'pages/me/main'],
+        pages: ['^pages/index/main', 'pages/me/main', 'pages/hello/main'],
         window: {
             backgroundTextStyle: 'light',
             navigationBarBackgroundColor: '#ea5149',
@@ -46,27 +160,17 @@ app.$mount();
             navigationBarTextStyle: 'black'
         },
         tabBar: {
-            selectedColor: '#EA5149',
+            selectedColor: '#000',
             list: [{
                 pagePath: 'pages/index/main',
-                text: '精选',
-                iconPath: 'static/img/me.png',
-                selectedIconPath: 'static/img/me-active.png'
-            }, {
-                pagePath: 'pages/all/main',
-                text: '全部商品',
-                iconPath: 'static/img/me.png',
-                selectedIconPath: 'static/img/me-active.png'
-            }, {
-                pagePath: 'pages/shopCar/main',
-                text: '购物车',
-                iconPath: 'static/img/me.png',
-                selectedIconPath: 'static/img/me-active.png'
+                text: '主页',
+                iconPath: 'static/img/pkq.png',
+                selectedIconPath: 'static/img/pkq-active.png'
             }, {
                 pagePath: 'pages/me/main',
-                text: '个人中心',
-                iconPath: 'static/img/me.png',
-                selectedIconPath: 'static/img/me-active.png'
+                text: '个人',
+                iconPath: 'static/img/jlq.png',
+                selectedIconPath: 'static/img/jlq-active.png'
             }]
         }
     }
@@ -74,15 +178,15 @@ app.$mount();
 
 /***/ }),
 
-/***/ 45:
+/***/ 46:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(49);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(46)
+  __webpack_require__(47)
 }
 var normalizeComponent = __webpack_require__(8)
 /* script */
@@ -126,22 +230,28 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 46:
+/***/ 47:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 48:
+/***/ 49:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_mutation_types__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_asyncToGenerator__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_asyncToGenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_asyncToGenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__http_api__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuex__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store_mutation_types__ = __webpack_require__(23);
+
+
 
 
 
@@ -150,65 +260,76 @@ if (false) {(function () {
 var App = getApp();
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: {
-        globalData: {
-            loginUrl: 'https://xxx.com/mini/login'
-        }
+        globalData: {}
     },
-    computed: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['openId'])),
-    methods: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapMutations */])({
+    computed: __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_4_vuex__["c" /* mapState */])(['openId'])),
+    methods: __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_4_vuex__["b" /* mapMutations */])({
         setOpenId: 'SET_OPEN_ID'
     }), {
-        login: function login() {
+        // 使用了async+await的语法，用同步的方式写异步脚本
+        login: function login(code) {
+            var _this2 = this;
+
+            return __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_asyncToGenerator___default()( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _this, resData;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _this = _this2;
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return Object(__WEBPACK_IMPORTED_MODULE_3__http_api__["a" /* login */])({ code: code });
+
+                            case 4:
+                                resData = _context.sent;
+
+                                if (resData.returnCode == 200) {
+                                    _this.setOpenId(resData.data.accountId);
+                                }
+                                _context.next = 11;
+                                break;
+
+                            case 8:
+                                _context.prev = 8;
+                                _context.t0 = _context['catch'](1);
+
+                                console.error(_context.t0);
+
+                            case 11:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, _this2, [[1, 8]]);
+            }))();
+        },
+
+        // 拆分wx.login，结构更清晰
+        _login: function _login() {
             var _this = this;
             wx.login({
                 success: function success(res) {
-                    console.log('wx.login成功res', res);
                     if (res.code) {
+                        console.log('wx.login成功,code:', res.code);
                         var code = res.code;
-                        // 登录后台，获取openId
-                        wx.request({
-                            url: _this.globalData.loginUrl,
-                            method: 'GET',
-                            data: {
-                                appid: __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].appid,
-                                code: code,
-                                appKey: __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].appKey
-                            },
-                            success: function success(res) {
-                                // if (res.data.code === 200) {
-                                //     _this.setOpenId(res.data.data.openId);
-                                // } else {
-                                //     wx.showModal({
-                                //         title: '提示',
-                                //         content: res.data.message,
-                                //         showCancel: false
-                                //     })
-                                // }
-                                _this.setOpenId('openId');
-                                console.log('假装设置openId', _this.openId);
-                            },
-                            fail: function fail(err) {
-                                wx.showToast({
-                                    title: err
-                                });
-                            }
-                        });
+                        _this.login(code);
                     } else {
-                        console.log('获取用户登录态失败！' + res.errMsg);
+                        _this.$tips.toast('微信登录失败');
                     }
-                },
-                fail: function fail(err) {}
+                }
             });
         }
     }),
-    created: function created() {
-        this.login();
+    onLaunch: function onLaunch() {
+        this._login();
     }
 });
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -226,18 +347,18 @@ var config = {
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex_persistedstate__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mutations__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__actions__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__getters__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex_persistedstate__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mutations__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__actions__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__getters__ = __webpack_require__(73);
 
 
 
@@ -270,7 +391,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /***/ }),
 
-/***/ 66:
+/***/ 67:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -283,11 +404,11 @@ var state = {
 
 /***/ }),
 
-/***/ 67:
+/***/ 68:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mutation_types__ = __webpack_require__(23);
 
@@ -301,7 +422,7 @@ var mutations = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -322,7 +443,7 @@ var mutations = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty
 
 /***/ }),
 
-/***/ 72:
+/***/ 73:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -340,15 +461,15 @@ var mutations = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty
 
 /***/ }),
 
-/***/ 73:
+/***/ 74:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_promise__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_promise__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_promise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_promise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
 
 
@@ -518,5 +639,5 @@ Tips.isLoading = false;
 
 /***/ })
 
-},[43]);
+},[44]);
 //# sourceMappingURL=app.js.map
