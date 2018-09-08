@@ -3,6 +3,8 @@
 ### 构成
 1、采用mpvue 官方脚手架搭建项目底层结构
 2、采用Fly.js 作为http请求库
+3、引入[mpvue-router-patach](https://github.com/F-loat/mpvue-router-patch)，以便在mpvue小程序中能使用vue-router的写法
+
 ### 目录结构
 ```
 ├── src // 我们的项目的源码编写文件
@@ -25,6 +27,7 @@
 │ │ └── api // 接口调用文件
 │ │ └── config //fly 配置文件
 │ ├── pages //项目页面目录
+│ ├── components //项目复用组件目录
 │ ├── store //状态管理 vuex配置目录
 │ │ └── actions.js //actions异步修改状态
 │ │ └── getters.js //getters计算过滤操作
@@ -36,7 +39,7 @@
 │ │ └── index.js
 │ ├── App.vue // APP入口文件
 │ ├── main.js // 主配置文件
-│ ├── config.js // host配置
+│ ├── config.js // host等配置
 ```
 ### 快速创建一个mpvue项目
 ```
@@ -59,28 +62,32 @@ $ npm run dev
 1、配置公共设置
 `src/http/config.js`
 ```
+/*
+    fly配置文件
+    by:David 2018.6.14
+*/
 //引入 fly
 var Fly = require("flyio/dist/npm/wx")
 var fly = new Fly;
-
+import config from '@/config'
 //配置请求基地址
 // //定义公共headers
 // fly.config.headers={xx:5,bb:6,dd:7}
 // //设置超时
-// fly.config.timeout=10000;
+fly.config.timeout = 20000;
 // //设置请求基地址
-// fly.config.baseURL="https://wendux.github.io/"
+fly.config.baseURL = config.host
 
 //添加请求拦截器
-fly.interceptors.request.use((request)=>{
+fly.interceptors.request.use((request) => {
     //给所有请求添加自定义header
-    request.headers["X-Tag"]="flyio";
-  	//打印出请求体
-  	// console.log(request.body)
-  	//终止请求
-  	//var err=new Error("xxx")
-  	//err.request=request
-  	//return Promise.reject(new Error(""))
+    request.headers["X-Tag"] = "flyio";
+    //打印出请求体
+    // console.log(request.body)
+    //终止请求
+    //var err=new Error("xxx")
+    //err.request=request
+    //return Promise.reject(new Error(""))
 
     //可以显式返回request, 也可以不返回，没有返回值时拦截器中默认返回request
     return request;
@@ -138,14 +145,23 @@ export const get = (params) => {
 export const post = (params) => {
     return fly.post(`${host}${params.url}`, qs.stringify(params.data))
 };
+// 封装的登录请求，根据后台接收方式选择是否加qs.stringify
+export const login = params => {
+    return fly.post('/login', params)
+};
+
 
 ```
 host配置
 `config.js`
 ```
-const host = 'http://xxx.xxx'
+const host = 'http://xxx.xxx';
+const appid = '';
+const appKey = '';
 const config = {
-	host
+	host,
+	appid,
+    appKey,
 }
 export default config
 ```
@@ -213,16 +229,14 @@ export default new Vuex.Store({
 ps:没有用到复杂计算，因此没有引入`getters.js`和`actions.js`
 栗子：`App.vue`
 ```
-<script>
-    import config from './config'
+ <script>
+    import { login } from '@/http/api'
     import { mapState, mapMutations } from 'vuex'
     import { SET_OPEN_ID } from './store/mutation-types'
-
+    const App = getApp();
     export default {
         data: {
-            globalData: {
-                loginUrl: 'https://xxx.com/mini/login'
-            }
+            globalData: {}
         },
         computed: {
             ...mapState([
@@ -233,56 +247,40 @@ ps:没有用到复杂计算，因此没有引入`getters.js`和`actions.js`
             ...mapMutations({
                 setOpenId: 'SET_OPEN_ID'
             }),
-            login() {
+            // 使用了async+await的语法，用同步的方式写异步脚本
+            async login(code) {
+                let _this = this;
+                try {
+                    const resData = await login({ code: code });
+                    if (resData.returnCode == 200) {
+                        _this.setOpenId(resData.data.accountId)
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+
+            },
+            // 拆分wx.login，结构更清晰
+            _login() {
                 let _this = this;
                 wx.login({
-                    success: function (res) {
+                    success(res) {
                         if (res.code) {
+                            console.log('wx.login成功,code:', res.code);
                             let code = res.code;
-                            // 登录后台，获取openId
-                            wx.request({
-                                url: _this.globalData.loginUrl,
-                                method: 'GET',
-                                data: {
-                                    appid: config.appid,
-                                    code: code,
-                                    appKey: config.appKey
-                                },
-                                success: function(res) {
-                                    if (res.data.code === 200) {
-                                        _this.setOpenId(res.data.data.openId);
-                                    } else {
-                                        wx.showModal({
-                                            title: '提示',
-                                            content: res.data.message,
-                                            showCancel: false
-                                        })
-                                    }
-                                },
-                                fail: err => {
-                                    wx.showToast({
-                                        title: err
-                                    })
-                                }
-                            })
+                            _this.login(code)
                         } else {
-                            console.log('获取用户登录态失败！' + res.errMsg)
+                            _this.$tips.toast('微信登录失败')
                         }
-                    },
-                    fail: err => {
-
                     }
                 });
             }
         },
-        created() {
-            this.login()
+        onLaunch() {
+            this._login()
         }
     }
 </script>
-
-<style>
-</style>
 ```
 ### 使用`vuex-persistedstate`，使vuex状态持久化（缓存到本地）
 `store/index.hs`的`export default`中添加配置：
@@ -304,7 +302,11 @@ export default new Vuex.Store({
     ]
 })
 ```
-*源码在我的github上，链接在文章开头*
-*如有帮助，欢迎star，不胜感激*
+### Tips
+1、遇到安装依赖后，运行项目，但dist下没有app.js等入口文件的，将package.json里的mpvue-loader的版本前的^去掉，删除依赖，重新安装即可
+2、几个tabbar的图标没有上传，自行选择喜欢的图标哦~
 
-*欢迎加入vue学习交流填坑q群：585472963，群很活跃，氛围很好~*
+**源码在我的github上，链接在文章开头**
+*如有帮助，欢迎star，不胜感激~*
+
+**欢迎加入vue学习交流填坑q群：585472963，群很活跃，氛围很好~**
