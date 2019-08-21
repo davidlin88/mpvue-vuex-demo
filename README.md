@@ -1,5 +1,6 @@
 ### 源码
 [mpvue-vuex-demo](https://github.com/davidlin88/mpvue-vuex-demo)
+# 鸽了 项目不维护了 不要在mpvue上浪费时间了 over 2019.8.21
 ### 有话要说
 - ~~1、个人感觉美团团队对mpvue不重视（长期停止维护）；~~
 - ~~2、微信团队对原生小程序进行持续迭代升级，使得原生小程序越来越好用了~~
